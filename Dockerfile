@@ -24,7 +24,7 @@ EXPOSE 8000
 # Updated the HEALTHCHECK command to check if the app has started successfully
 # Fixed typo: Changed CHECKHEALTH to HEALTHCHECK
 # Added "--start-period=5s" to specify the delay before performing health checks
-HEALTHCHECKinterval --=30s --timeout=10s --start-period=5s CMD curl --fail http://localhost:8000/ || exit 1
+HEALTHCHECK interval=30s timeout=10s start-period=5s CMD curl --fail http://localhost:8000/ || exit 1
 
 # Use the command `python3 -m uvicorn` instead of `uvicorn`
 # Updated the command to explicitly specify the path to the main application file
