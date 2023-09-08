@@ -11,11 +11,13 @@ COPY ./requirements.txt /auth_app
 WORKDIR /auth_app
 
 # Install required packages
+# Added apt-utils to ensure package dependencies are installed correctly
 RUN apt-get update && apt-get install -y --no-install-recommends \
     python3-dev \
     gcc \
     libc-dev \
     python3-pip \
+    apt-utils \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies from requirements.txt
