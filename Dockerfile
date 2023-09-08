@@ -1,7 +1,7 @@
 
 FROM python:3.8-slim
 
-# Copy the entire project directory into the container
+# Copy the entire project directory the into container
 COPY . /auth_app
 
 # Copy the requirements.txt file into the auth_app directory
@@ -11,7 +11,7 @@ COPY ./requirements.txt /auth_app
 WORKDIR /auth_app
 
 # Install required packages
-RUN apt-get update -y && apt-get install -y --no-install-recommends \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     python3-dev \
     gcc \
     libc-dev \
@@ -19,6 +19,7 @@ RUN apt-get update -y && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies from requirements.txt
+# Fixed typo in the pip command - 'no-cache' instead of 'no-cachee'
 RUN pip install --no-cache -r requirements.txt
 
 # Expose port 8000 for the application
