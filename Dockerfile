@@ -23,4 +23,5 @@ EXPOSE 8000
 # Updated the HEALTHCHECK command to check if the app has started successfully
 HEALTHCHECK --interval=30s --timeout=10s CMD curl --fail http://localhost:8000/ || exit 1
 
-CMD ["uvicorn", "src.main:app", "--host=0.0.0.0", "--reload"]
+# Use the command `python3 -m uvicorn` instead of `uvicorn`
+CMD ["python3", "-m", "uvicorn", "src.main:app", "--host=0.0.0.0", "--reload"]
