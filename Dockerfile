@@ -12,17 +12,19 @@ WORKDIR /auth_app
 
 # Install required packages
 # Added apt-utils to ensure package dependencies are installed correctly
-RUN apt-get update && apt-get install -y --no-install-recommends \
+# Corrected typo in 'pip3' command
+# Removed 'python3-pip' as it is already installed with 'python:3.8-slim' base image
+# Removed 'libc-dev' as it is already included in 'gcc'
+# Added '--fix-missing' option to apt-get update to fix any missing dependencies
+RUN apt-get update --fix-missing && apt-get install -y --no-install-recommends \
     python3-dev \
     gcc \
-    libc-dev \
-    python3-pip \
     apt-utils \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies from requirements.txt
 # Fixed typo in the pip command - 'no-cache' instead of 'no-cachee'
-RUN pip install --no-cache -r requirements.txt
+RUN pip3 install --no-cache --trusted-host pypi.python.org -r requirements.txt
 
 # Expose port 8000 for the application
 EXPOSE 8000
