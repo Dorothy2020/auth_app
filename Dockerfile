@@ -6,12 +6,17 @@ COPY ./requirements.txt /auth_app
 
 WORKDIR /auth_app
 
-# (fixed typo: changed "pip3" to "pip")
-RUN pip install -r requirements.txt
+# Install required packages (fixed typo: changed "RUN pip" to "RUN apt-get")
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python dependencies
+RUN pip install --no-cache-dir -r requirements.txt
 
 EXPOSE 8000
 
-# (added a delay before the health check to ensure the app is fully loaded)
-HECHECK --ALTHinterval=30s --timeout=10s CMD sleep 10 || exit 1
+# Add a delay before the health check to ensure the app is fully loaded
+HEALTHCHECK --interval=30s --timeout=10s CMD sleep 10 || exit 1
 
 CMD ["uvicorn", "src.main:app", "--host=0.0.0.0", "--reload"]
